@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/vinanaw_red</item>
+        <item name="android:colorPrimaryDark">@color/vinanaw_red</item>
+        <item name="android:statusBarColor">@color/vinanaw_red</item>
+        <item name="android:windowBackground">@color/vinanaw_red</item>
+    </style>
+</resources>

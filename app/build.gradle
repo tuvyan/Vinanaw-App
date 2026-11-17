@@ -1,0 +1,49 @@
+plugins {
+    id "com.android.application"
+}
+
+// Release signing comes from environment variables (set by GitHub Actions
+// from the repository secrets). Without them, only a debug build is made.
+def ksFile = System.getenv("VINANAW_KEYSTORE_FILE")
+def ksPass = System.getenv("VINANAW_KEYSTORE_PASSWORD")
+def hasReleaseKey = ksFile && ksPass && file(ksFile).exists()
+
+android {
+    namespace "vinanaw.bbta"
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "vinanaw.bbta"
+        minSdk 21
+        targetSdk 36
+        // Raise versionCode by 1 for every release you hand out.
+        versionCode 1
+        versionName "0.1 (dictionary draft 04 Nov 2026)"
+    }
+
+    signingConfigs {
+        if (hasReleaseKey) {
+            release {
+                storeFile file(ksFile)
+                storePassword ksPass
+                keyAlias "vinanaw"
+                keyPassword ksPass
+                storeType "pkcs12"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (hasReleaseKey) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
